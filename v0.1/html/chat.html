@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <title>Chatroom</title>
+    </head>
+    <body>
+        <h1>Welcome to the Chatroom</h1>
+        <script>
+            // get user name from cookie user_name
+            var user_name = document.cookie.replace(/(?:(?:^|.*;\s*)user_name\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+            console.log(user_name);
+            if (user_name === '') {
+                user_name = prompt('Please enter your name:', 'Anonymous');
+                document.cookie = 'user_name=' + user_name;
+            }
+            var ws = new WebSocket("ws://10.126.3.80:1999/ws/chatroom");
+            ws.onmessage = function(event) {
+                var messages = document.getElementById('messages');
+                messages.innerHTML += '<div>' + event.data + '</div>';
+            };
+            function sendMessage() {
+                var input = document.getElementById("messageText");
+                ws.send(input.value);
+                input.value = '';
+            }
+            var input = document.getElementById("messageText");
+            input.addEventListener("keyup", function(event) {
+                event.preventDefault();
+                if (event.keyCode === 13) {
+                    document.getElementById("sendButton").click();
+                }
+            });
+        </script>
+        <input id="messageText" type="text" />
+        <!-- press enter to send message -->
+        <button id="sendButton"  onclick="sendMessage()">Send</button>
+        <div id="messages"></div>
+    </body>
+</html>

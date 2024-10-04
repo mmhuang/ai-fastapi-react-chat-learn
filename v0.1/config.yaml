@@ -1,0 +1,15 @@
+# 
+
+service_config:
+  host: '127.0.0.1'
+  chatroom_name: 'chat_room'
+  html_dir: 'html'
+
+security_config:
+  user_password_salt: ${USER_PASSWORD_SALT}
+  user_shadow_file: '.passwd.json'
+
+
+log_config:
+  log_file: 'chat.log'
+  log_level: 'DEBUG'
